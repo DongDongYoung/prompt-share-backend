@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -73,6 +74,42 @@ class PromptRepositoryTest {
 
         //then
         assertThat(byId.isEmpty()).isTrue();
+    }
+
+    @Test
+    @DisplayName("Select 테스트")
+    void selectTest() throws Exception{
+        //given
+
+        //when
+        List<Prompt> prompts = promptRepository.findAll();
+
+        //then
+        assertThat(prompts)
+                .isNotNull()
+                .hasSize(234);
+    }
+
+    @Test
+    @DisplayName("Insert 테스트")
+    void insertTest() throws Exception{
+        //given
+        Prompt prompt = Prompt.of("title1", "detail1", "input1", "output1");
+        promptRepository.save(prompt);
+        em.flush();
+        em.clear();
+
+        //when
+        List<Prompt> prompts = promptRepository.findAll();
+        Optional<Prompt> byId = promptRepository.findById(prompt.getId());
+
+        //then
+        assertThat(prompts)
+                .isNotNull()
+                .hasSize(235);
+        assertThat(byId.get())
+                .isNotNull()
+                .isEqualTo(prompt);
     }
 
     public PromptRepositoryTest(
