@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### 설정파일 보호를 위함 ###
+/src/main/resources/application.yml
