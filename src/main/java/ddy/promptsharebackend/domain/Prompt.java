@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -26,8 +27,12 @@ public class Prompt {
     private int viewCount; // TODO: 조회수 처리 공부 후 추가하기
     private int likeCount; // TODO: 유저 테이블 생성 후, 연관관계 매핑으로 수정
 
-    private LocalDateTime createdAt;
-    private String createdBy;
+    // TODO: Auditor 기능 알아보고 적용하기
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @Column(updatable = false) private LocalDateTime createdAt;
+    @Column(updatable = false) private String createdBy;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime modifiedAt;
     private String modifiedBy;
 
